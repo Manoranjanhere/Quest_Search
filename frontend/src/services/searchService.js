@@ -4,7 +4,7 @@ import { SearchServiceClient } from './search_grpc_web_pb';
 // Initialize the client
 const client = new SearchServiceClient('http://localhost:8080');
 
-export const searchQuestions = async (query, page = 1, limit = 10, type = '') => {
+export const searchQuestions = async (query, page = 1, limit = 500, type = '') => {
   return new Promise((resolve, reject) => {
     const request = new SearchRequest();
     request.setQuery(query);
