@@ -1,15 +1,7 @@
 const DARK_LOGO = "/blacktheme.png";  
 const LIGHT_LOGO = "/whitetheme.png";
 import React, { useState, useEffect } from 'react';
-import { 
-  Container, 
-  Typography, 
-  Box, 
-  Pagination, 
-  IconButton,
-  Button,
-  Link 
-} from '@mui/material';
+import { Container, Typography, Box, Pagination, IconButton,Button} from '@mui/material';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
