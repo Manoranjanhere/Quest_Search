@@ -1,0 +1,11 @@
+version: '3'
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.28.0
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: ["envoy", "-c", "/etc/envoy/envoy.yaml", "--log-level", "debug"]

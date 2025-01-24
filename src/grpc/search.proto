@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package search;
+
+service SearchService {
+  rpc Search (SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchRequest {
+  string query = 1;
+  int32 page = 2;
+  int32 limit = 3;
+}
+
+message SearchResponse {
+  string title = 1;
+  string type = 2;
+  repeated Option options = 3;
+  string solution = 4;
+  repeated Block blocks = 5;
+}
+
+message Option {
+  string text = 1;
+  bool isCorrectAnswer = 2;
+}
+
+message Block {
+  string text = 1;
+  bool showInOption = 2;
+  bool isAnswer = 3;
+}
