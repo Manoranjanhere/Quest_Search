@@ -14,12 +14,12 @@ const QuestionList = ({ questions }) => {
         >
           <CardContent>
             <Typography variant="h6" color="primary" gutterBottom>
-              {question.title || ''}
+              {question.title}
             </Typography>
             <Typography variant="body2" color="textSecondary" gutterBottom>
-              Type: {question.type || ''}
+              Type: {question.type}
             </Typography>
-            {question.options && question.options.length > 0 && (
+            {question.options?.length > 0 && (
               <Box sx={{ mt: 2 }}>
                 <Typography variant="subtitle2" color="textSecondary">Options:</Typography>
                 {question.options.map((option, idx) => (
@@ -32,7 +32,7 @@ const QuestionList = ({ questions }) => {
                 ))}
               </Box>
             )}
-            {question.blocks && question.blocks.length > 0 && (
+            {question.blocks?.length > 0 && (
               <Box sx={{ mt: 2 }}>
                 <Typography variant="subtitle2" color="textSecondary">Blocks:</Typography>
                 {question.blocks.map((block, idx) => (

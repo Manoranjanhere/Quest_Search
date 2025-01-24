@@ -32,32 +32,18 @@ function App() {
       setResults([]);
       return;
     }
-
+  
     try {
       setIsLoading(true);
-      // Make multiple searches to get different questions
-      const promises = Array(5).fill().map(() => searchQuestions(searchQuery));
-      const responses = await Promise.all(promises);
-      
-      // Filter out duplicates and empty results
-      const uniqueResults = responses.reduce((acc, response) => {
-        if (response && response.title) {
-          const isDuplicate = acc.some(r => r.title === response.title);
-          if (!isDuplicate) {
-            acc.push(response);
-          }
-        }
-        return acc;
-      }, []);
-      
-      setResults(uniqueResults);
+      const response = await searchQuestions(searchQuery);
+      setResults(response || []);
     } catch (err) {
       console.error('Error:', err);
+      setResults([]);
     } finally {
       setIsLoading(false);
     }
   };
-
   // Calculate start and end index for current page
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;

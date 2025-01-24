@@ -32,39 +32,50 @@ mongoose.connect(process.env.MONGODB_URI, {
 
 async function search(call, callback) {
   try {
-    const { query, page = 1, limit = 10 } = call.request;
+    const { query, page = 1, limit = 5, type = '' } = call.request;
     
     if (mongoose.connection.readyState !== 1) {
       throw new Error('MongoDB not connected');
     }
 
-    const questions = await Question.find({ 
-      title: new RegExp(query, 'i') 
-    })
-    .lean()
-    .limit(limit)
-    .skip((page - 1) * limit)
-    .maxTimeMS(5000);
+    // Build search query
+    const searchQuery = {
+      $or: [
+        { title: new RegExp(query, 'i') },
+        { solution: new RegExp(query, 'i') },
+        { 'blocks.text': new RegExp(query, 'i') },
+        { 'options.text': new RegExp(query, 'i') }
+      ]
+    };
 
-    if (!questions || questions.length === 0) {
-      return callback(null, {
-        title: '',
-        type: '',
-        options: [],
-        solution: '',
-        blocks: []
-      });
+    // Add type filter if specified
+    if (type) {
+      searchQuery.type = type;
     }
 
-    const question = questions[0];
-    callback(null, {
-      title: question.title || '',
-      type: question.type || '',
-      options: question.options || [],
-      solution: question.solution || '',
-      blocks: question.blocks || []
-    });
+    const questions = await Question.find(searchQuery)
+      .lean()
+      .limit(limit)
+      .skip((page - 1) * limit)
+      .maxTimeMS(5000);
 
+    // Transform questions to match proto format
+    const transformedQuestions = questions.map(q => ({
+      title: q.title || '',
+      type: q.type || '',
+      options: q.options?.map(opt => ({
+        text: opt.text || '',
+        isCorrectAnswer: !!opt.isCorrectAnswer
+      })) || [],
+      solution: q.solution || '',
+      blocks: q.blocks?.map(block => ({
+        text: block.text || '',
+        showInOption: !!block.showInOption,
+        isAnswer: !!block.isAnswer
+      })) || []
+    }));
+
+    callback(null, { questions: transformedQuestions });
   } catch (error) {
     console.error('Search error:', error);
     callback({
@@ -73,7 +84,6 @@ async function search(call, callback) {
     });
   }
 }
-
 // Start server after MongoDB connects
 mongoose.connection.once('open', () => {
   const server = new grpc.Server();

@@ -10,9 +10,14 @@ message SearchRequest {
   string query = 1;
   int32 page = 2;
   int32 limit = 3;
+  string type = 4;
 }
 
 message SearchResponse {
+  repeated Question questions = 1;  
+}
+
+message Question {
   string title = 1;
   string type = 2;
   repeated Option options = 3;

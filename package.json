@@ -6,7 +6,7 @@
     "start": "node src/services/searchService.js",
     "dev": "nodemon src/services/searchService.js",
     "clean": "rimraf node_modules package-lock.json",
-    "generate": "npx grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/services --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:./src/services --grpc_out=grpc_js:./src/services --proto_path=./src/grpc ./src/grpc/search.proto"
+    "generate": "npx grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./frontend/src/services --grpc-web_out=import_style=commonjs+dts,mode=grpcwebtext:./frontend/src/services --grpc_out=grpc_js:./frontend/src/services --proto_path=./src/grpc ./src/grpc/search.proto"
   },
   "dependencies": {
     "@grpc/grpc-js": "1.12.5",
