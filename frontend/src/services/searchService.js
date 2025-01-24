@@ -18,20 +18,19 @@ export const searchQuestions = async (query, page = 1, limit = 10) => {
       }
 
       try {
-        const result = response.getQuestionsList().map(question => ({
-          title: question.getTitle(),
-          type: question.getType(),
-          options: question.getOptionsList().map(opt => ({
-            text: opt.getText(),
-            isCorrectAnswer: opt.getIsCorrectAnswer()
+        const result = {
+          title: response.getTitle() || '',
+          type: response.getType() || '',
+          options: (response.getOptionsList() || []).map(opt => ({
+            text: opt.getText() || '',
           })),
-          solution: question.getSolution(),
-          blocks: question.getBlocksList().map(block => ({
-            text: block.getText(),
-            showInOption: block.getShowInOption(),
-            isAnswer: block.getIsAnswer()
+          solution: response.getSolution() || '',
+          blocks: (response.getBlocksList() || []).map(block => ({
+            text: block.getText() || '',
+            showInOption: block.getShowInOption() || false,
+            isAnswer: block.getIsAnswer() || false
           }))
-        }));
+        };
         resolve(result);
       } catch (error) {
         console.error('Error parsing response:', error);
