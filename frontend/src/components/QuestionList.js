@@ -14,27 +14,43 @@ const QuestionList = ({ questions }) => {
         >
           <CardContent>
             <Typography variant="h6" color="primary" gutterBottom>
-              {question.title}
+              {question.title || ''}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Type: {question.type}
+            <Typography variant="body2" color="textSecondary" gutterBottom>
+              Type: {question.type || ''}
             </Typography>
-            {question.blocks?.length > 0 && (
-              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', my: 1 }}>
+            {question.options && question.options.length > 0 && (
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="subtitle2" color="textSecondary">Options:</Typography>
+                {question.options.map((option, idx) => (
+                  <Chip 
+                    key={idx}
+                    label={option.text}
+                    color={option.isCorrectAnswer ? "success" : "default"}
+                    sx={{ m: 0.5 }}
+                  />
+                ))}
+              </Box>
+            )}
+            {question.blocks && question.blocks.length > 0 && (
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="subtitle2" color="textSecondary">Blocks:</Typography>
                 {question.blocks.map((block, idx) => (
                   <Chip 
                     key={idx}
                     label={block.text}
-                    color={block.isAnswer ? "success" : "primary"}
-                    variant="outlined"
+                    color={block.isAnswer ? "primary" : "default"}
+                    variant={block.showInOption ? "outlined" : "filled"}
+                    sx={{ m: 0.5 }}
                   />
                 ))}
               </Box>
             )}
             {question.solution && (
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 1 }}>
-                Solution: {question.solution}
-              </Typography>
+              <Box sx={{ mt: 2 }}>
+                <Typography variant="subtitle2" color="textSecondary">Solution:</Typography>
+                <Typography variant="body2">{question.solution}</Typography>
+              </Box>
             )}
           </CardContent>
         </Card>

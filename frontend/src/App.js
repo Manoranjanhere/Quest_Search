@@ -35,8 +35,22 @@ function App() {
 
     try {
       setIsLoading(true);
-      const response = await searchQuestions(searchQuery);
-      setResults(Array.isArray(response) ? response : [response]);
+      // Make multiple searches to get different questions
+      const promises = Array(5).fill().map(() => searchQuestions(searchQuery));
+      const responses = await Promise.all(promises);
+      
+      // Filter out duplicates and empty results
+      const uniqueResults = responses.reduce((acc, response) => {
+        if (response && response.title) {
+          const isDuplicate = acc.some(r => r.title === response.title);
+          if (!isDuplicate) {
+            acc.push(response);
+          }
+        }
+        return acc;
+      }, []);
+      
+      setResults(uniqueResults);
     } catch (err) {
       console.error('Error:', err);
     } finally {
@@ -44,7 +58,10 @@ function App() {
     }
   };
 
-  const paginatedResults = results;
+  // Calculate start and end index for current page
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const paginatedResults = results.slice(startIndex, endIndex);
 
   return (
     <ThemeProvider theme={darkTheme}>
@@ -54,16 +71,22 @@ function App() {
           Quest Search
         </Typography>
         <SearchBox value={query} onChange={handleSearch} />
-        <QuestionList questions={paginatedResults} />
-        {results.length > itemsPerPage && (
-          <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
-            <Pagination
-              count={Math.ceil(results.length / itemsPerPage)}
-              page={page}
-              onChange={(e, value) => setPage(value)}
-              color="primary"
-            />
-          </Box>
+        {isLoading ? (
+          <Typography>Loading...</Typography>
+        ) : (
+          <>
+            <QuestionList questions={paginatedResults} />
+            {results.length > itemsPerPage && (
+              <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+                <Pagination
+                  count={Math.ceil(results.length / itemsPerPage)}
+                  page={page}
+                  onChange={(e, value) => setPage(value)}
+                  color="primary"
+                />
+              </Box>
+            )}
+          </>
         )}
       </Container>
     </ThemeProvider>
