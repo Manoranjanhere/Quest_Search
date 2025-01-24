@@ -1,3 +1,5 @@
+const DARK_LOGO = "/blacktheme.png";  
+const LIGHT_LOGO = "/whitetheme.png";
 import React, { useState, useEffect } from 'react';
 import { 
   Container, 
@@ -156,16 +158,16 @@ function App() {
     alignItems: 'center'
   }}>
     <img 
-      src="https://cdn.textstudio.com/output/sample/normal/6/3/7/5/speak-logo-321-5736.png" 
-      alt="SpeakX Logo"
+      src={mode === 'dark' ? DARK_LOGO : LIGHT_LOGO}
+      alt="Logo"
       style={{ 
         width: '100%',
-        height: 'auto'
+        height: 'auto',
       }} 
     />
   </Box>
           <Typography variant="h4" color="primary" sx={{ flex: 1, textAlign: 'center' }}>
-            QUEST
+            Quest
           </Typography>
           <IconButton onClick={toggleTheme} color="primary" sx={{ ml: 2 }}>
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}

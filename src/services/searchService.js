@@ -14,10 +14,8 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   oneofs: true
 });
 
-// Load gRPC package definition
 const searchProto = grpc.loadPackageDefinition(packageDefinition).search;
 
-// Connect to MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -48,7 +46,6 @@ async function search(call, callback) {
       ]
     };
 
-    // Add type filter if specified
     if (type) {
       searchQuery.type = type;
     }
@@ -59,7 +56,6 @@ async function search(call, callback) {
       .skip((page - 1) * limit)
       .maxTimeMS(5000);
 
-    // Transform questions to match proto format
     const transformedQuestions = questions.map(q => ({
       title: q.title || '',
       type: q.type || '',
@@ -84,7 +80,6 @@ async function search(call, callback) {
     });
   }
 }
-// Start server after MongoDB connects
 mongoose.connection.once('open', () => {
   const server = new grpc.Server();
   server.addService(searchProto.SearchService.service, { search });
