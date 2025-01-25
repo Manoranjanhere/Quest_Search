@@ -18,6 +18,7 @@
     "mongoose": "^7.0.0"
   },
   "devDependencies": {
+    "concurrently": "^9.1.2",
     "grpc-tools": "1.11.3"
   }
 }
