@@ -4,7 +4,7 @@
   "main": "src/services/searchService.js",
   "scripts": {
     "start": "node src/services/searchService.js",
-    "backend": "nodemon src/services/searchService.js",
+    "backend": "node src/services/searchService.js",
     "frontend": "cd frontend && npm start",
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "clean": "rimraf node_modules package-lock.json",
