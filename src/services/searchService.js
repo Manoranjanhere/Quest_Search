@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const Question = require('../models/questionModel');
 require('dotenv').config();
 
-// Load proto file
 const PROTO_PATH = __dirname + '/../grpc/search.proto';
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,

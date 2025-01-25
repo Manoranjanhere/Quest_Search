@@ -1,8 +1,13 @@
 import { SearchRequest } from './search_pb';
 import { SearchServiceClient } from './search_grpc_web_pb';
 
-const client = new SearchServiceClient('http://localhost:8080');
-
+const client = new SearchServiceClient('http://localhost:8080', {
+  withCredentials: false,
+  headers: {
+    'Content-Type': 'application/grpc-web+proto',
+    'X-Grpc-Web': '1'
+  }
+});
 export const searchQuestions = async (query, page = 1, limit = 500, type = '') => {
   return new Promise((resolve, reject) => {
     const request = new SearchRequest();
