@@ -136,7 +136,6 @@ function App() {
         display: 'flex',
         flexDirection: 'column'
       }}>
-        {/* Header */}
         <Box sx={{ 
           display: 'flex', 
           justifyContent: 'space-between', 
@@ -195,7 +194,6 @@ function App() {
               </Box>
             </Box>
           </Box>
-          {/* Filter for mobile */}
           <Box sx={{ 
             mt: 2,
             display: { xs: 'block', md: 'none' }
@@ -208,12 +206,10 @@ function App() {
           </Box>
         </Box>
 
-        {/* Main Content */}
         <Box sx={{ flex: 1 }}>
           {renderContent()}
         </Box>
 
-        {/* Footer */}
         <Box sx={{ 
           mt: 'auto', 
           py: 3,

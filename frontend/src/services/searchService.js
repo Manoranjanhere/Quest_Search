@@ -1,7 +1,6 @@
 import { SearchRequest } from './search_pb';
 import { SearchServiceClient } from './search_grpc_web_pb';
 
-// Initialize the client
 const client = new SearchServiceClient('http://localhost:8080');
 
 export const searchQuestions = async (query, page = 1, limit = 500, type = '') => {
