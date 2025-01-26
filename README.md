@@ -51,7 +51,15 @@ npm install
 Edit the file `frontend/src/searchService.js` and set the client URL to point to your local backend:
 
 ```javascript
-const clientUrl = 'http://localhost:8080';
+const client = new SearchServiceClient('http://134.209.155.76:8080', {
+  withCredentials: false,
+  headers: {
+    'Content-Type': 'application/grpc-web+proto',
+    'X-Grpc-Web': '1'
+  }
+}); 
+//make above config to
+const client = new SearchServiceClient('http://localhost:8080');
 ```
 
 ### 4. Set Up the Proxy Server
