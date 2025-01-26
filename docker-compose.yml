@@ -1,11 +1,31 @@
 version: '3'
 services:
+  backend:
+    build: .
+    ports:
+      - "50051:50051"
+    environment:
+      - NODE_ENV=production
+      - MONGODB_URI=${MONGODB_URI}
+    restart: always
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+    depends_on:
+      - backend
+    restart: always
+
   envoy:
     image: envoyproxy/envoy:v1.28.0
     ports:
-      - "8081:8081"
+      - "8080:8080"
     volumes:
       - ./envoy.yaml:/etc/envoy/envoy.yaml
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-    command: ["envoy", "-c", "/etc/envoy/envoy.yaml", "--log-level", "debug"]
+    depends_on:
+      - backend
+    command: ["envoy", "-c", "/etc/envoy/envoy.yaml", "--log-level", "debug"]
+    restart: always

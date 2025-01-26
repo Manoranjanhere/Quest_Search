@@ -1,7 +1,7 @@
 import { SearchRequest } from './search_pb';
 import { SearchServiceClient } from './search_grpc_web_pb';
 
-const client = new SearchServiceClient('http://localhost:8081', {
+const client = new SearchServiceClient('http://localhost:8080', {
   withCredentials: false,
   headers: {
     'Content-Type': 'application/grpc-web+proto',
