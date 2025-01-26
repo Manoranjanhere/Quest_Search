@@ -1,7 +1,7 @@
 import { SearchRequest } from './search_pb';
 import { SearchServiceClient } from './search_grpc_web_pb';
 
-const client = new SearchServiceClient('https://134.209.155.76:8080', {
+const client = new SearchServiceClient('https://searchserver.apnarooms.tech', {
   withCredentials: false,
   headers: {
     'Content-Type': 'application/grpc-web+proto',
