@@ -51,7 +51,7 @@ npm install
 Edit the file `frontend/src/searchService.js` and set the client URL to point to your local backend:
 
 ```javascript
-const clientUrl = 'http://localhost:8080';
+const clientUrl = 'http://localhost:8081';
 ```
 
 ### 4. Set Up the Proxy Server
@@ -91,7 +91,7 @@ This will launch the application, and you can access it in your browser.
 - The application is configured to run on the following ports:
   - Frontend: `3000`
   - Backend: `50051`
-  - Proxy Server: `8080`
+  - Proxy Server: `8081`
 
 ---
 
